@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, computed } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'file-date',
@@ -7,18 +7,10 @@ import { Component, signal, OnInit, computed } from '@angular/core';
   templateUrl: './file-date.component.html',
   styleUrl: './file-date.component.scss',
 })
-export class FileDateComponent implements OnInit {
-  date = signal(new Date());
-  dateStr = computed(() => this.formatDate(this.date()));
-  labelText = computed(() => this.formatReadableDate(this.date()));
-
-  ngOnInit(): void {
-    setTimeout(() => {
-      // 24 hours, 60 minutes, 60 seconds, 1000 milliseconds
-      const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
-      this.date.set(tomorrow);
-    }, 5000);
-  }
+export class FileDateComponent {
+  inputDate = input.required<Date>();
+  dateStr = computed(() => this.formatDate(this.inputDate()));
+  labelText = computed(() => this.formatReadableDate(this.inputDate()));
 
   formatDate(inputDate: Date) {
     // Month starts at 0, annoyingly
