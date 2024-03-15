@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FileDateComponent } from '../file-date/file-date.component';
 
 @Component({
@@ -7,9 +7,9 @@ import { FileDateComponent } from '../file-date/file-date.component';
   imports: [FileDateComponent],
   template: `
     <button
-      (click)="selectFile()"
+      (click)="selected.emit({})"
       [style]="
-        isSelected
+        isSelected()
           ? 'background-color: blue; color: white'
           : 'background-color: white; color: blue'
       "
@@ -23,10 +23,11 @@ import { FileDateComponent } from '../file-date/file-date.component';
 export class FileComponent {
   fileName = input.required<string>();
   href = input.required<string>();
+  isSelected = input.required<boolean>();
+  selected = output<Object>();
   inputDate = new Date();
-  isSelected = false;
 
-  selectFile() {
-    this.isSelected = !this.isSelected;
-  }
+  // selectFile() {
+  //   this.isSelected = !this.isSelected;
+  // }
 }
